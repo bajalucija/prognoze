@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 2rem;
+        }
+        input[type="text"], input[type="number"], input[type="datetime-local"] {
+            padding: 5px;
+            font-size: 14px;
+        }
+        .pair-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .result-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        label {
+            display: block;
+            margin-top: 1rem;
+        }
+        h2 {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Admin panel</h1>
+
+    <form method="get" action="/admin">
+        <label for="round">Odaberi kolo:</label>
+        <input type="number" name="round" id="round" value="{{ round_num or '' }}" required>
+        <button type="submit">Prikaži</button>
+    </form>
+
+    {% if round_num %}
+    <hr>
+
+    <!-- Forma za unos parova -->
+    <h2>Unos parova za {{ round_num }}. kolo</h2>
+    <form method="post">
+        <input type="hidden" name="form_type" value="events">
+        <input type="hidden" name="round" value="{{ round_num }}">
+
+        <label for="deadline">Rok za prognoze:</label>
+        <input type="datetime-local" name="deadline" id="deadline"
+               value="{{ deadline|replace(' ', 'T') if deadline else '' }}" required>
+
+        <h4>Parovi:</h4>
+        {% for i in range(1, 11) %}
+            <div class="pair-row">
+                <input type="text" name="home_{{ i }}" placeholder="Domaćin {{ i }}"
+                       value="{{ parovi[i-1]['home'] if parovi[i-1] else '' }}" required>
+                <span>vs</span>
+                <input type="text" name="away_{{ i }}" placeholder="Gost {{ i }}"
+                       value="{{ parovi[i-1]['away'] if parovi[i-1] else '' }}" required>
+            </div>
+        {% endfor %}
+
+        <button type="submit">Spremi parove</button>
+    </form>
+
+    <!-- Forma za unos rezultata -->
+    <h2>Unos rezultata za {{ round_num }}. kolo</h2>
+    <form method="post">
+        <input type="hidden" name="form_type" value="results">
+        <input type="hidden" name="round" value="{{ round_num }}">
+
+        {% for i in range(1, 11) %}
+            <div class="result-row">
+                <label for="result_{{ i }}">Rezultat {{ i }}:</label>
+                <select name="result_{{ i }}" id="result_{{ i }}">
+                    <option value="">--</option>
+                    <option value="1" {% if rezultati[i-1] == '1' %}selected{% endif %}>1</option>
+                    <option value="X" {% if rezultati[i-1] == 'X' %}selected{% endif %}>X</option>
+                    <option value="2" {% if rezultati[i-1] == '2' %}selected{% endif %}>2</option>
+                </select>
+            </div>
+        {% endfor %}
+
+        <button type="submit">Spremi rezultate</button>
+    </form>
+    {% endif %}
+
+</body>
+</html>

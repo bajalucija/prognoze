@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Pregled prognoza</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 900px;
+            margin: auto;
+        }
+        th, td {
+            border: 1px solid #888;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #eee;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        caption {
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <caption>Pregled unešenih prognoza</caption>
+        <thead>
+            <tr>
+                <th>Korisnik</th>
+                <th>Kolo</th>
+                <th>Utakmica</th>
+                <th>Prognoza</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if podaci %}
+                {% for username, round_num, home, away, prediction in podaci %}
+                <tr>
+                    <td>{{ username }}</td>
+                    <td>{{ round_num }}</td>
+                    <td>{{ home }} - {{ away }}</td>
+                    <td>{{ prediction }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4">Nema unesnih prognoza.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+

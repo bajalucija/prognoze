@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Unos prognoza</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .match { margin-bottom: 15px; }
+        select { width: 100px; }
+    </style>
+</head>
+<body>
+    <h1>Unesi prognoze za {{ round_num }}. kolo</h1>
+
+    <form action="/submit" method="POST">
+        <input type="hidden" name="round" value="{{ round_num or '' }}">
+
+        <label for="username">Nadimak:</label>
+        <input type="text" name="username" required><br><br>
+
+        {% if events %}
+            {% for event in events %}
+                <div class="match">
+                    <strong>{{ event[1] }} - {{ event[2] }}</strong><br>
+                    <select name="prediction_{{ event[0] }}">
+                        <option value="">-- Odaberi --</option>
+                        <option value="1">1</option>
+                        <option value="X">X</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
+            {% endfor %}
+            <button type="submit">Pošalji prognoze</button>
+        {% else %}
+            <p>Nema dostupnih parova za ovo kolo ili je prošao rok za unos.</p>
+        {% endif %}
+    </form>
+</body>
+</html>

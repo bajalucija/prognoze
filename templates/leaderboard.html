@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Ljestvica</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 900px;
+            margin: auto;
+        }
+        th, td {
+            border: 1px solid #888;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #eee;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        caption {
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <caption>Ljestvica</caption>
+        <thead>
+            <tr>
+                <th>Korisnik</th>
+                {% for r in rounds %}
+                    <th>Kolo {{ r }}</th>
+                {% endfor %}
+                <th>Ukupno</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if table %}
+                {% for red in table %}
+                    <tr>
+                        {% for celija in red %}
+                            <td>{{ celija }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td colspan="{{ rounds|length + 2 }}">Nema podataka za ljestvicu.</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+
+

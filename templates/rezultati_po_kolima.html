@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Rezultati po kolima</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h2 { margin-top: 40px; }
+        ul { list-style-type: none; padding-left: 0; }
+        li { margin-bottom: 6px; }
+    </style>
+</head>
+<body>
+    <h1>Rezultati po kolima</h1>
+    {% for round_num, utakmice in rezultati.items() %}
+        <h2>Kolo {{ round_num }}</h2>
+        <ul>
+            {% for utakmica in utakmice %}
+                <li>{{ utakmica }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nema rezultata za prikaz.</p>
+    {% endfor %}
+</body>
+</html>
+
